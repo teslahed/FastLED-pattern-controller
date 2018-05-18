@@ -8,8 +8,6 @@
  * Altered slightly with pattern changes, additions, and the dimmer switch.
  */
 
-
-
 #include "FastLED.h"        // FastLED Library.
 #include <EEPROM.h>         // EEPROM Library.
 #define NUM_LEDS 14         // Change here for longer strings of LEDs
@@ -25,6 +23,7 @@ int potPin = A0;            // select the input pin for the potentiometer for Ov
 int potValue = 0;           // variable to store the value coming from the potentiometer.
 int brightnessValue = 0;    // variable for brightness value (remapped pot value for 255).
 
+
 void setup()
 {
   FastLED.addLeds<WS2811, PIN, GRB>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );       // Standard FastLED setup for WS2812.
@@ -32,7 +31,6 @@ void setup()
   attachInterrupt (digitalPinToInterrupt (BUTTON), changeEffect, CHANGE);                   // pressed
   //Serial.begin(9600);                                                                     // open the serial port at 9600 bps:
 }
-
 
 
 void loop() 
@@ -44,12 +42,12 @@ void loop()
   
   EEPROM.get(0,selectedEffect);                                                             // Read mode from EEPROM (for some reason).
   
-  if(selectedEffect>19) {                                                                   // Change number here when adding effects. Loops back to 0.
+  if(selectedEffect>20) {                                                                   // Change number here when adding effects. Loops back to 0.
     selectedEffect=0;
     EEPROM.put(0,0);    
   } 
- 
-     
+  
+      
 // *********************************************************************
 // ** List / Order of Effects. Add new ones here. Add functions below.**
 // *********************************************************************
@@ -62,8 +60,15 @@ void loop()
                 break;
                 
               }
-
+              
     case 1  : {
+                FastLED.clear ();
+                FastLED.show(); 
+                break;
+                
+              }          
+
+    case 2  : {
                 // FadeInOut - Color (red, green. blue)
                 FadeInOut(0xff, 0x00, 0x00); // red
                 FadeInOut(0x00, 0xff, 0x00); // green 
@@ -71,55 +76,55 @@ void loop()
                 break;
               }
               
-    case 2  : {
+    case 3  : {
                 // Strobe - Color (red, green, blue), number of flashes, flash speed, end pause
                 Strobe(0xff, 0xff, 0xff, 3, 250, 400);
                 break;
               }
 
-    case 3  : {
+    case 4  : {
                // Strobe - Color (red, green, blue), number of flashes, flash speed, end pause
                 Strobe(0xff, 0x00, 0x00, 3, 250, 400);
                 break;
               }
               
-    case 4  : {
+    case 5  : {
                 // CylonBounce - Color (red, green, blue), eye size, speed delay, end pause
                 CylonBounce(0xff, 0x00, 0x00, 4, 20, 50);
                 break;
               }
               
-    case 5  : {
+    case 6  : {
                 // NewKITT - Color (red, green, blue), eye size, speed delay, end pause
                 NewKITT(0xff, 0x00, 0x00, 8, 10, 50);
                 break;
               }
               
-    case 6  : {
+    case 7  : {
                 // Twinkle - Color (red, green, blue), count, speed delay, only one twinkle (true/false) 
                 Twinkle(0xff, 0x00, 0x00, 10, 100, false);
                 break;
               }
               
-    case 7  : { 
+    case 8  : { 
                 // TwinkleRandom - twinkle count, speed delay, only one (true/false)
                 TwinkleRandom(25, 100, false);
                 break;
               }
               
-    case 8  : {
+    case 9  : {
                 // Sparkle - Color (red, green, blue), speed delay
                 Sparkle(0xff, 0x00, 0xff, 0);
                 break;
               }
                
-    case 9  : {
+    case 10  : {
                 // SnowSparkle - Color (red, green, blue), sparkle delay, speed delay
                 SnowSparkle(0x10, 0x10, 0x10, 20, random(100,1000));
                 break;
               }
               
-    case 10 : {
+    case 11 : {
                 // Running Lights - Color (red, green, blue), wave dealy
                 RunningLights(0xff,0x00,0x00, 50);  // red
                 RunningLights(0x00,0xff,0x00, 50);  // green
@@ -127,27 +132,27 @@ void loop()
                 break;
               }
               
-    case 11 : {
+    case 12 : {
                 // colorWipe - Color (red, green, blue), speed delay
                 colorWipe(0x00,0xff,0x00, 50);
                 colorWipe(0xff,0x00,0xff, 50);
                 break;
               }
 
-    case 12 : {
+    case 13 : {
                 // rainbowCycle - speed delay
                 rainbowCycle(2);
                 break;
               }
     
-    case 13 : {
+    case 14 : {
                 // rainbowCycle - speed delay
                 rainbowCycle(15);
                 break;
               }
               
 
-    case 14 : {
+    case 15 : {
                 // theatherChase - Color (red, green, blue), speed delay
                 theaterChase(0xff,0,0,50);
                 theaterChase(0,0xff,0,50);
@@ -155,13 +160,13 @@ void loop()
                 break;
               }
 
-    case 15 : {
+    case 16 : {
                 // theaterChaseRainbow - Speed delay
                 theaterChaseRainbow(50);
                 break;
               }
 
-    case 16 : {
+    case 17 : {
                 // Fire - Cooling rate, Sparking rate, speed delay
                 Fire(55,120,15);
                 break;
@@ -172,14 +177,14 @@ void loop()
               // BouncingColoredBalls - Number of balls, color (red, green, blue) array, continuous
               // CAUTION: If set to continuous then this effect will never stop!!! 
               
-    case 17 : {
+    case 18 : {
                 // mimic BouncingBalls
                 byte onecolor[1][3] = { {0xff, 0x00, 0x00} };
                 BouncingColoredBalls(1, onecolor, false);
                 break;
               }
 
-    case 18 : {
+    case 19 : {
                 // multiple colored balls
                 byte colors[3][3] = { {0xff, 0x00, 0x00}, 
                                       {0xff, 0xff, 0xff}, 
@@ -188,7 +193,7 @@ void loop()
                 break;
               }
 
-    case 19 : {
+    case 20 : {
                 // meteorRain - Color (red, green, blue), meteor size, trail decay, random trail decay (true/false), speed delay 
                 meteorRain(0xff,0xff,0xff,10, 64, true, 30);
                 break;
