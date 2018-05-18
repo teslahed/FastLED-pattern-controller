@@ -18,6 +18,16 @@ CRGB leds[NUM_LEDS];
 #define PIN 6               // Pin for LED data line.
 #define BUTTON 3            // Button for mode changes. Has to be either 2 or 3 on most arduinos for the code to work properly.
 
+int buttonState;             // the current reading from the input pin
+int lastButtonState = LOW;   // the previous reading from the input pin
+
+
+
+// the following variables are unsigned longs because the time, measured in
+// milliseconds, will quickly become a bigger number than can be stored in an int.
+unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
+unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
+
 byte selectedEffect=0;      // Keeps track of display mode.
 
 //Code for brightness potentiometer knob
@@ -31,6 +41,7 @@ void setup()
   digitalWrite (BUTTON, HIGH);                                                              // Internal pull-up resistor.
   attachInterrupt (digitalPinToInterrupt (BUTTON), changeEffect, CHANGE);                   // pressed
   //Serial.begin(9600);                                                                     // open the serial port at 9600 bps:
+  pinMode(BUTTON, INPUT);
 }
 
 
@@ -47,6 +58,7 @@ void loop()
     selectedEffect=0;
     EEPROM.put(0,0);    
   } 
+
  
      
 // *********************************************************************
@@ -207,13 +219,38 @@ void loop()
 
 // Change modes / effects. When button is pressed selected effect is incrimented and stored to EEPROM for some reason.
 void changeEffect() {
-  delay(250);                                       //Debounce delay. I added this.
-    if (digitalRead (BUTTON) == HIGH) {
-    selectedEffect++;
+
+// read the state of the switch into a local variable:
+  int reading = digitalRead(BUTTON);
+
+  // check to see if you just pressed the button
+  // (i.e. the input went from LOW to HIGH), and you've waited long enough
+  // since the last press to ignore any noise:
+
+  // If the switch changed, due to noise or pressing:
+  if (reading != lastButtonState) {
+    // reset the debouncing timer
+    lastDebounceTime = millis();
+  }
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    // whatever the reading is at, it's been there for longer than the debounce
+    // delay, so take it as the actual current state:
+
+    // if the button state has changed:
+    if (reading != buttonState) {
+      buttonState = reading;
+
+      // only toggle the LED if the new button state is HIGH
+      if (buttonState == HIGH) {selectedEffect++;
     EEPROM.put(0, selectedEffect);
     asm volatile ("  jmp 0");
     delay(250);
-   }
+      }
+    }
+  }
+
+  
+  
 }
 
 // ******************************************
