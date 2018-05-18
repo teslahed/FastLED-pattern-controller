@@ -212,7 +212,7 @@ void changeEffect() {
     selectedEffect++;
     EEPROM.put(0, selectedEffect);
     asm volatile ("  jmp 0");
-    //delay(250);
+    delay(250);
    }
 }
 
@@ -227,27 +227,51 @@ void Black(){
 //Custom Visibility Strobe in White (Chris Telford).
 void WhiteStrobe()  {
         fill_solid( leds, NUM_LEDS, CRGB::White);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue);  
         showStrip();
         delay(150);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue);  
         showStrip();
         delay(50);
         fill_solid( leds, NUM_LEDS, CRGB::White);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue);  
         showStrip();
         delay(150);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue); 
         showStrip();
         delay(50);
         fill_solid( leds, NUM_LEDS, CRGB::White);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue); 
         showStrip();
         delay(150);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue); 
         showStrip();
         delay(50);
         fill_solid( leds, NUM_LEDS, CRGB::White);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue); 
         showStrip();
         delay(200);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue); 
         showStrip();
         potValue = analogRead(potPin);                                                            // Read the potentiometer values.
         brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
@@ -259,27 +283,51 @@ void WhiteStrobe()  {
 //Custom Visibility Strobe in Red (Chris Telford).
 void RedStrobe()  {
         fill_solid( leds, NUM_LEDS, CRGB::Red);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue);  
         showStrip();
         delay(150);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue);  
         showStrip();
         delay(50);
         fill_solid( leds, NUM_LEDS, CRGB::Red);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue);  
         showStrip();
         delay(150);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue); 
         showStrip();
         delay(50);
         fill_solid( leds, NUM_LEDS, CRGB::Red);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue); 
         showStrip();
         delay(150);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue); 
         showStrip();
         delay(50);
         fill_solid( leds, NUM_LEDS, CRGB::Red);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue); 
         showStrip();
         delay(200);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue); 
         showStrip();
         potValue = analogRead(potPin);                                                            // Read the potentiometer values.
         brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
