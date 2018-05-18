@@ -37,6 +37,7 @@ void setup()
 
 void loop() 
 { 
+  delay(500);
   potValue = analogRead(potPin);                                                            // Read the potentiometer values.
   brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
   FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
@@ -199,13 +200,12 @@ void loop()
 
 // Change modes / effects. When button is pressed selected effect is incrimented and stored to EEPROM for some reason.
 void changeEffect() {
-  delay(250);                                       //Debounce delay. I added this.
+  delay(250);                                       //Debounce delay for switch. I added this.
     if (digitalRead (BUTTON) == HIGH) {
     selectedEffect++;
     EEPROM.put(0, selectedEffect);
     asm volatile ("  jmp 0");
-    //delay(250);
-   }
+    }
 }
 
 // ******************************************
@@ -221,6 +221,9 @@ void RGBLoop(){
         case 1: setAll(0,k,0); break;
         case 2: setAll(0,0,k); break;
       }
+      potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+      brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+      FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
       showStrip();
       delay(3);
     }
@@ -231,6 +234,9 @@ void RGBLoop(){
         case 1: setAll(0,k,0); break;
         case 2: setAll(0,0,k); break;
       }
+      potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+      brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+      FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.                                                                                                                                                                                                                                                                                    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
       showStrip();
       delay(3);
     }
@@ -238,6 +244,7 @@ void RGBLoop(){
 }
 
 void FadeInOut(byte red, byte green, byte blue){
+  
   float r, g, b;
       
   for(int k = 0; k < 256; k=k+1) { 
@@ -245,6 +252,9 @@ void FadeInOut(byte red, byte green, byte blue){
     g = (k/256.0)*green;
     b = (k/256.0)*blue;
     setAll(r,g,b);
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
   }
      
@@ -253,6 +263,9 @@ void FadeInOut(byte red, byte green, byte blue){
     g = (k/256.0)*green;
     b = (k/256.0)*blue;
     setAll(r,g,b);
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
   }
 }
@@ -260,9 +273,15 @@ void FadeInOut(byte red, byte green, byte blue){
 void Strobe(byte red, byte green, byte blue, int StrobeCount, int FlashDelay, int EndPause){
   for(int j = 0; j < StrobeCount; j++) {
     setAll(red,green,blue);
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
     delay(FlashDelay);
     setAll(0,0,0);
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
     delay(FlashDelay);
   }
@@ -319,6 +338,9 @@ void CylonBounce(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, i
       setPixel(i+j, red, green, blue); 
     }
     setPixel(i+EyeSize+1, red/10, green/10, blue/10);
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
     delay(SpeedDelay);
   }
@@ -332,6 +354,9 @@ void CylonBounce(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, i
       setPixel(i+j, red, green, blue); 
     }
     setPixel(i+EyeSize+1, red/10, green/10, blue/10);
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
     delay(SpeedDelay);
   }
@@ -366,7 +391,9 @@ void CenterToOutside(byte red, byte green, byte blue, int EyeSize, int SpeedDela
       setPixel(NUM_LEDS-i-j, red, green, blue); 
     }
     setPixel(NUM_LEDS-i-EyeSize-1, red/10, green/10, blue/10);
-    
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
     delay(SpeedDelay);
   }
@@ -389,7 +416,9 @@ void OutsideToCenter(byte red, byte green, byte blue, int EyeSize, int SpeedDela
       setPixel(NUM_LEDS-i-j, red, green, blue); 
     }
     setPixel(NUM_LEDS-i-EyeSize-1, red/10, green/10, blue/10);
-    
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
     delay(SpeedDelay);
   }
@@ -405,6 +434,9 @@ void LeftToRight(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, i
       setPixel(i+j, red, green, blue); 
     }
     setPixel(i+EyeSize+1, red/10, green/10, blue/10);
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
     delay(SpeedDelay);
   }
@@ -420,6 +452,9 @@ void RightToLeft(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, i
       setPixel(i+j, red, green, blue); 
     }
     setPixel(i+EyeSize+1, red/10, green/10, blue/10);
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
     delay(SpeedDelay);
   }
@@ -431,6 +466,9 @@ void Twinkle(byte red, byte green, byte blue, int Count, int SpeedDelay, boolean
   
   for (int i=0; i<Count; i++) {
      setPixel(random(NUM_LEDS),red,green,blue);
+     potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+     brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+     FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
      showStrip();
      delay(SpeedDelay);
      if(OnlyOne) { 
@@ -446,6 +484,9 @@ void TwinkleRandom(int Count, int SpeedDelay, boolean OnlyOne) {
   
   for (int i=0; i<Count; i++) {
      setPixel(random(NUM_LEDS),random(0,255),random(0,255),random(0,255));
+     potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+     brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+     FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
      showStrip();
      delay(SpeedDelay);
      if(OnlyOne) { 
@@ -459,6 +500,9 @@ void TwinkleRandom(int Count, int SpeedDelay, boolean OnlyOne) {
 void Sparkle(byte red, byte green, byte blue, int SpeedDelay) {
   int Pixel = random(NUM_LEDS);
   setPixel(Pixel,red,green,blue);
+  potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+  brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+  FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
   showStrip();
   delay(SpeedDelay);
   setPixel(Pixel,0,0,0);
@@ -469,9 +513,15 @@ void SnowSparkle(byte red, byte green, byte blue, int SparkleDelay, int SpeedDel
   
   int Pixel = random(NUM_LEDS);
   setPixel(Pixel,0xff,0xff,0xff);
+  potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+  brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+  FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
   showStrip();
   delay(SparkleDelay);
   setPixel(Pixel,red,green,blue);
+  potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+  brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+  FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
   showStrip();
   delay(SpeedDelay);
 }
@@ -491,7 +541,9 @@ void RunningLights(byte red, byte green, byte blue, int WaveDelay) {
                    ((sin(i+Position) * 127 + 128)/255)*green,
                    ((sin(i+Position) * 127 + 128)/255)*blue);
       }
-      
+      potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+      brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+      FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
       showStrip();
       delay(WaveDelay);
   }
@@ -500,6 +552,9 @@ void RunningLights(byte red, byte green, byte blue, int WaveDelay) {
 void colorWipe(byte red, byte green, byte blue, int SpeedDelay) {
   for(uint16_t i=0; i<NUM_LEDS; i++) {
       setPixel(i, red, green, blue);
+      potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+      brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+      FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
       showStrip();
       delay(SpeedDelay);
   }
@@ -514,6 +569,9 @@ void rainbowCycle(int SpeedDelay) {
       c=Wheel(((i * 256 / NUM_LEDS) + j) & 255);
       setPixel(i, *c, *(c+1), *(c+2));
     }
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
     delay(SpeedDelay);
   }
@@ -548,6 +606,9 @@ void theaterChase(byte red, byte green, byte blue, int SpeedDelay) {
       for (int i=0; i < NUM_LEDS; i=i+3) {
         setPixel(i+q, red, green, blue);    //turn every third pixel on
       }
+      potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+      brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+      FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
       showStrip();
      
       delay(SpeedDelay);
@@ -568,6 +629,9 @@ void theaterChaseRainbow(int SpeedDelay) {
           c = Wheel( (i+j) % 255);
           setPixel(i+q, *c, *(c+1), *(c+2));    //turn every third pixel on
         }
+        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+        FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
         showStrip();
        
         delay(SpeedDelay);
@@ -610,7 +674,9 @@ void Fire(int Cooling, int Sparking, int SpeedDelay) {
   for( int j = 0; j < NUM_LEDS; j++) {
     setPixelHeatColor(j, heat[j] );
   }
-
+  potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+  brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+  FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
   showStrip();
   delay(SpeedDelay);
 }
@@ -685,7 +751,9 @@ void BouncingColoredBalls(int BallCount, byte colors[][3], boolean continuous) {
         ballsStillBouncing = true;
       }
     }
-    
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
     setAll(0,0,0);
   }
@@ -710,7 +778,9 @@ void meteorRain(byte red, byte green, byte blue, byte meteorSize, byte meteorTra
         setPixel(i-j, red, green, blue);
       } 
     }
-   
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
     showStrip();
     delay(SpeedDelay);
   }
