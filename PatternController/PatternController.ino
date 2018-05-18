@@ -6,6 +6,7 @@
  * https://www.tweaking4all.com/forums/topic/arduino-all-led-effects-in-one-sketch/
  * https://www.tweaking4all.com/downloads/arduino/AllEffects_FastLED.ino.zip
  * Altered slightly with pattern changes, additions, and the dimmer switch.
+ * Please note; the code starts up showing black and requires a button press to start the display.
  */
 
 #include "FastLED.h"        // FastLED Library.
