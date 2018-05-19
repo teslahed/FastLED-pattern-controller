@@ -6,23 +6,21 @@
  * https://www.tweaking4all.com/forums/topic/arduino-all-led-effects-in-one-sketch/
  * https://www.tweaking4all.com/downloads/arduino/AllEffects_FastLED.ino.zip
  * Altered slightly with pattern changes, additions, and the dimmer switch.
+ * JC_Button library used for button debounce feature and general ease of use.
  */
 
-
-
+//Libraries
+#include <JC_Button.h>      // https://github.com/JChristensen/JC_Button
 #include "FastLED.h"        // FastLED Library.
 #include <EEPROM.h>         // EEPROM Library.
+
+//Pins
 #define NUM_LEDS 14         // Change here for longer strings of LEDs
-CRGB leds[NUM_LEDS];
+CRGB leds[NUM_LEDS];        // FastLED pin setup
 
 #define PIN 6               // Pin for LED data line.
 #define BUTTON 3            // Button for mode changes. Has to be either 2 or 3 on most arduinos for the code to work properly.
-
-int buttonState = LOW;             // the current reading from the input pin
-int lastButtonState = LOW;   // the previous reading from the input pin
-
-unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
-unsigned long debounceDelay = 15  ;    // the debounce time; increase if the output flickers
+Button myBtn(BUTTON);       // define the button using button library.
 
 byte selectedEffect=0;      // Keeps track of display mode.
 
@@ -33,14 +31,10 @@ int brightnessValue = 0;    // variable for brightness value (remapped pot value
 
 void setup()
 {
+  myBtn.begin();                                                                            // initialize the button object using button library.
   FastLED.addLeds<WS2811, PIN, GRB>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );       // Standard FastLED setup for WS2812.
-  //digitalWrite (BUTTON, HIGH);                                                            // Internal pull-up resistor.
-  pinMode(BUTTON, INPUT);
-  attachInterrupt (digitalPinToInterrupt (BUTTON), changeEffect, CHANGE);                   // pressed
-  //Serial.begin(9600);                                                                     // open the serial port at 9600 bps:
+  attachInterrupt (digitalPinToInterrupt (BUTTON), changeEffect, CHANGE);                   // Button works on interup. Runs changEffect when pressed. Uncertain.
 }
-
-
 
 void loop() 
 { 
@@ -52,7 +46,7 @@ void loop()
   
   if(selectedEffect>20) {                                                                   // Change number here when adding effects. Loops back to 0.
     selectedEffect=0;
-    EEPROM.put(0,0);    
+    EEPROM.put(0,0);                                                                        // Store the LED pattern number in EEPROM.
   } 
  
      
@@ -65,14 +59,12 @@ void loop()
     case 0  : {
                 // RGBLoop - no parameters
                 RGBLoop();
-                changeEffect();
                 break;
                 
               }
               
     case 1  : {
                 Black();
-                changeEffect();
                 break;
                 
               }          
@@ -82,7 +74,6 @@ void loop()
                 FadeInOut(0xff, 0x00, 0x00); // red
                 FadeInOut(0x00, 0xff, 0x00); // green 
                 FadeInOut(0x00, 0x00, 0xff); // blue
-                changeEffect();
                 break;
               }
               
@@ -90,57 +81,47 @@ void loop()
                 // Strobe - Color (red, green, blue), number of flashes, flash speed, end pause
                 //Strobe(0xff, 0xff, 0xff, 3, 250, 400);
                 WhiteStrobe();
-                changeEffect();
                 break;
               }
 
     case 4  : {
-               // Strobe - Color (red, green, blue), number of flashes, flash speed, end pause
-                //Strobe(0xff, 0x00, 0x00, 3, 250, 400);
                 RedStrobe();
-                changeEffect();
                 break;
               }
               
     case 5  : {
                 // CylonBounce - Color (red, green, blue), eye size, speed delay, end pause
                 CylonBounce(0xff, 0x00, 0x00, 4, 20, 50);
-                changeEffect();
                 break;
               }
               
     case 6  : {
                 // NewKITT - Color (red, green, blue), eye size, speed delay, end pause
                 NewKITT(0xff, 0x00, 0x00, 8, 10, 50);
-                changeEffect();
                 break;
               }
               
     case 7  : {
                 // Twinkle - Color (red, green, blue), count, speed delay, only one twinkle (true/false) 
                 Twinkle(0xff, 0x00, 0x00, 10, 100, false);
-                changeEffect();
                 break;
               }
               
     case 8  : { 
                 // TwinkleRandom - twinkle count, speed delay, only one (true/false)
                 TwinkleRandom(25, 100, false);
-                changeEffect();
                 break;
               }
               
     case 9  : {
                 // Sparkle - Color (red, green, blue), speed delay
                 Sparkle(0xff, 0x00, 0xff, 0);
-                changeEffect();
                 break;
               }
                
     case 10  : {
                 // SnowSparkle - Color (red, green, blue), sparkle delay, speed delay
                 SnowSparkle(0x10, 0x10, 0x10, 20, random(100,1000));
-                changeEffect();
                 break;
               }
               
@@ -149,7 +130,6 @@ void loop()
                 RunningLights(0xff,0x00,0x00, 50);  // red
                 RunningLights(0x00,0xff,0x00, 50);  // green
                 RunningLights(0x00,0x00,0xff, 50);  // blue
-                changeEffect();
                 break;
               }
               
@@ -157,21 +137,18 @@ void loop()
                 // colorWipe - Color (red, green, blue), speed delay
                 colorWipe(0x00,0xff,0x00, 50);
                 colorWipe(0xff,0x00,0xff, 50);
-                changeEffect();
                 break;
               }
 
     case 13 : {
                 // rainbowCycle - speed delay
                 rainbowCycle(2);
-                changeEffect();
                 break;
               }
     
     case 14 : {
                 // rainbowCycle - speed delay
                 rainbowCycle(15);
-                changeEffect();
                 break;
               }
               
@@ -181,21 +158,18 @@ void loop()
                 theaterChase(0xff,0,0,50);
                 theaterChase(0,0xff,0,50);
                 theaterChase(0,0,0xff,50);
-                changeEffect();
                 break;
               }
 
     case 16 : {
                 // theaterChaseRainbow - Speed delay
                 theaterChaseRainbow(50);
-                changeEffect();
                 break;
               }
 
     case 17 : {
                 // Fire - Cooling rate, Sparking rate, speed delay
                 Fire(55,120,15);
-                changeEffect();
                 break;
               }
 
@@ -208,7 +182,6 @@ void loop()
                 // mimic BouncingBalls
                 byte onecolor[1][3] = { {0xff, 0x00, 0x00} };
                 BouncingColoredBalls(1, onecolor, false);
-                changeEffect();
                 break;
               }
 
@@ -218,32 +191,23 @@ void loop()
                                       {0xff, 0xff, 0xff}, 
                                       {0x00, 0x00, 0xff} };
                 BouncingColoredBalls(3, colors, false);
-                changeEffect();
                 break;
               }
 
     case 20 : {
                 // meteorRain - Color (red, green, blue), meteor size, trail decay, random trail decay (true/false), speed delay 
                 meteorRain(0xff,0xff,0xff,10, 64, true, 30);
-                changeEffect();
                 break;
               }
   }
 }
 
 
-
 // Change modes / effects. When button is pressed selected effect is incrimented and stored to EEPROM for some reason.
 void changeEffect() {
-    int reading = digitalRead(BUTTON);
-    if (reading != lastButtonState) {
-      lastDebounceTime = millis();
-    }
-    if ((millis() - lastDebounceTime) > debounceDelay) {
-       if (reading != buttonState) {
-        buttonState = reading;
-
-        if (buttonState == HIGH) {
+    myBtn.read();               // read the button
+    if (myBtn.wasReleased())
+    {
    
     selectedEffect++;
     EEPROM.put(0, selectedEffect);
@@ -251,21 +215,20 @@ void changeEffect() {
     
    }
     }
-    }
-    lastButtonState = reading;
-  
-}
-
+    
+      
 // ******************************************
 // ** LED Effect Functions from here down. **
 // ******************************************
+
+// Set all LEDs to black. 
 void Black(){
   fill_solid( leds, NUM_LEDS, CRGB::Black);
   showStrip();
 }
 
-//Custom Visibility Strobe in White (Chris Telford).
-void WhiteStrobe()  {
+// Custom Visibility Strobe in White (Chris Telford).
+void WhiteStrobe()  {                                                                             // Custom Visibility Strobe in White (Chris Telford).
         fill_solid( leds, NUM_LEDS, CRGB::White);
         potValue = analogRead(potPin);                                                            // Read the potentiometer values.
         brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
@@ -321,7 +284,7 @@ void WhiteStrobe()  {
 }
 
 //Custom Visibility Strobe in Red (Chris Telford).
-void RedStrobe()  {
+void RedStrobe()  {                                                                               // Custom Visibility Strobe in White (Chris Telford).
         fill_solid( leds, NUM_LEDS, CRGB::Red);
         potValue = analogRead(potPin);                                                            // Read the potentiometer values.
         brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
