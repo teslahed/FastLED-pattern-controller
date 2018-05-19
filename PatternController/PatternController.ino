@@ -20,7 +20,7 @@ CRGB leds[NUM_LEDS];        // FastLED pin setup
 
 #define PIN 6               // Pin for LED data line.
 #define BUTTON 3            // Button for mode changes. Has to be either 2 or 3 on most arduinos for the code to work properly.
-Button myBtn(BUTTON);       // define the button using button library.
+Button myBtn(BUTTON, 50);       // define the button using button library.
 
 byte selectedEffect=0;      // Keeps track of display mode.
 
@@ -34,10 +34,12 @@ void setup()
   myBtn.begin();                                                                            // initialize the button object using button library.
   FastLED.addLeds<WS2811, PIN, GRB>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );       // Standard FastLED setup for WS2812.
   attachInterrupt (digitalPinToInterrupt (BUTTON), changeEffect, CHANGE);                   // Button works on interup. Runs changEffect when pressed. Uncertain.
+  Serial.begin(9600);                                                                       // open the serial port at 9600 bps:    
 }
 
 void loop() 
 { 
+  
   potValue = analogRead(potPin);                                                            // Read the potentiometer values.
   brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
   FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
@@ -58,83 +60,97 @@ void loop()
     
     case 0  : {
                 // RGBLoop - no parameters
+                Serial.print(" 0: RGBLoop ");   //Print out current pattern mode name and number. 
                 RGBLoop();
                 break;
-                
+                                 
               }
               
     case 1  : {
+                Serial.print(" 1: Black ");     //Print out current pattern mode name and number. 
                 Black();
                 break;
-                
+                                
               }          
 
     case 2  : {
                 // FadeInOut - Color (red, green. blue)
+                Serial.print(" 2: FadeInOut "); //Print out current pattern mode name and number. 
                 FadeInOut(0xff, 0x00, 0x00); // red
                 FadeInOut(0x00, 0xff, 0x00); // green 
                 FadeInOut(0x00, 0x00, 0xff); // blue
                 break;
+                
               }
               
     case 3  : {
                 // Strobe - Color (red, green, blue), number of flashes, flash speed, end pause
                 //Strobe(0xff, 0xff, 0xff, 3, 250, 400);
+                Serial.print(" 3: WhiteStrobe "); //Print out current pattern mode name and number. 
                 WhiteStrobe();
                 break;
-              }
+                              }
 
     case 4  : {
+                Serial.print(" 4: RedStrobe ");   //Print out current pattern mode name and number. 
                 RedStrobe();
                 break;
               }
               
     case 5  : {
                 // CylonBounce - Color (red, green, blue), eye size, speed delay, end pause
+                Serial.print(" 5: CylonBounce "); //Print out current pattern mode name and number. 
                 CylonBounce(0xff, 0x00, 0x00, 4, 20, 50);
                 break;
               }
               
     case 6  : {
                 // NewKITT - Color (red, green, blue), eye size, speed delay, end pause
+                Serial.print(" 6: NewKITT ");     //Print out current pattern mode name and number. 
                 NewKITT(0xff, 0x00, 0x00, 8, 10, 50);
                 break;
               }
               
     case 7  : {
                 // Twinkle - Color (red, green, blue), count, speed delay, only one twinkle (true/false) 
+                Serial.print(" 7: Twinkle ");     //Print out current pattern mode name and number. 
                 Twinkle(0xff, 0x00, 0x00, 10, 100, false);
                 break;
               }
               
     case 8  : { 
                 // TwinkleRandom - twinkle count, speed delay, only one (true/false)
+                Serial.print(" 8: TwinkleRandom ");      //Print out current pattern mode name and number. 
                 TwinkleRandom(25, 100, false);
                 break;
               }
               
     case 9  : {
                 // Sparkle - Color (red, green, blue), speed delay
+                Serial.print(" 9: Sparkle ");           //Print out current pattern mode name and number. 
                 Sparkle(0xff, 0x00, 0xff, 0);
                 break;
               }
                
     case 10  : {
                 // SnowSparkle - Color (red, green, blue), sparkle delay, speed delay
+                Serial.print(" 10: SnowSparkle ");      //Print out current pattern mode name and number. 
                 SnowSparkle(0x10, 0x10, 0x10, 20, random(100,1000));
                 break;
               }
               
     case 11 : {
                 // Running Lights - Color (red, green, blue), wave dealy
-                RunningLights(0xff,0x00,0x00, 50);  // red
-                RunningLights(0x00,0xff,0x00, 50);  // green
-                RunningLights(0x00,0x00,0xff, 50);  // blue
+                Serial.print(" 11: Running Lights ");   //Print out current pattern mode name and number. 
+                RunningLights(0xff,0x00,0x00, 50);      // red
+                RunningLights(0x00,0xff,0x00, 50);      // green
+                RunningLights(0x00,0x00,0xff, 50);      // blue
                 break;
               }
               
     case 12 : {
                 // colorWipe - Color (red, green, blue), speed delay
+                Serial.print(" 12: colorWipe ");        //Print out current pattern mode name and number. 
                 colorWipe(0x00,0xff,0x00, 50);
                 colorWipe(0xff,0x00,0xff, 50);
                 break;
@@ -142,12 +158,14 @@ void loop()
 
     case 13 : {
                 // rainbowCycle - speed delay
+                Serial.print(" 13: RainbowCycle Fast "); //Print out current pattern mode name and number. 
                 rainbowCycle(2);
                 break;
               }
     
     case 14 : {
                 // rainbowCycle - speed delay
+                Serial.print(" 14: rainbowCycle Slow"); //Print out current pattern mode name and number. 
                 rainbowCycle(15);
                 break;
               }
@@ -155,6 +173,7 @@ void loop()
 
     case 15 : {
                 // theatherChase - Color (red, green, blue), speed delay
+                Serial.print(" 15: theatherChase ");    //Print out current pattern mode name and number. 
                 theaterChase(0xff,0,0,50);
                 theaterChase(0,0xff,0,50);
                 theaterChase(0,0,0xff,50);
@@ -163,23 +182,25 @@ void loop()
 
     case 16 : {
                 // theaterChaseRainbow - Speed delay
+                Serial.print(" 16: theaterChaseRainbow ");  //Print out current pattern mode name and number. 
                 theaterChaseRainbow(50);
                 break;
               }
 
     case 17 : {
                 // Fire - Cooling rate, Sparking rate, speed delay
+                Serial.print(" 17: Fire ");                 //Print out current pattern mode name and number. 
                 Fire(55,120,15);
                 break;
               }
 
 
-              // simple bouncingBalls not included, since BouncingColoredBalls can perform this as well as shown below
-              // BouncingColoredBalls - Number of balls, color (red, green, blue) array, continuous
-              // CAUTION: If set to continuous then this effect will never stop!!! 
-              
     case 18 : {
                 // mimic BouncingBalls
+                // simple bouncingBalls not included, since BouncingColoredBalls can perform this as well as shown below
+                // BouncingColoredBalls - Number of balls, color (red, green, blue) array, continuous
+                // CAUTION: If set to continuous then this effect will never stop!!! 
+                Serial.print(" 18: BouncingBalls ");        //Print out current pattern mode name and number. 
                 byte onecolor[1][3] = { {0xff, 0x00, 0x00} };
                 BouncingColoredBalls(1, onecolor, false);
                 break;
@@ -187,6 +208,7 @@ void loop()
 
     case 19 : {
                 // multiple colored balls
+                Serial.print(" 19: colored balls ");        //Print out current pattern mode name and number. 
                 byte colors[3][3] = { {0xff, 0x00, 0x00}, 
                                       {0xff, 0xff, 0xff}, 
                                       {0x00, 0x00, 0xff} };
@@ -196,6 +218,7 @@ void loop()
 
     case 20 : {
                 // meteorRain - Color (red, green, blue), meteor size, trail decay, random trail decay (true/false), speed delay 
+                Serial.print(" 20: meteorRain ");            //Print out current pattern mode name and number. 
                 meteorRain(0xff,0xff,0xff,10, 64, true, 30);
                 break;
               }
@@ -206,13 +229,11 @@ void loop()
 // Change modes / effects. When button is pressed selected effect is incrimented and stored to EEPROM for some reason.
 void changeEffect() {
     myBtn.read();               // read the button
-    if (myBtn.wasReleased())
+    if (myBtn.wasPressed())
     {
-   
     selectedEffect++;
     EEPROM.put(0, selectedEffect);
-    asm volatile ("  jmp 0");
-    
+    asm volatile ("  jmp 0");    
    }
     }
     
@@ -222,9 +243,10 @@ void changeEffect() {
 // ******************************************
 
 // Set all LEDs to black. 
-void Black(){
+void Black(){                                                                                     // Set all LEDs to black. 
   fill_solid( leds, NUM_LEDS, CRGB::Black);
-  showStrip();
+  delay(3);                                                                                       // Seems to stop next pattern crashing for some reason.
+  showStrip();    
 }
 
 // Custom Visibility Strobe in White (Chris Telford).
@@ -280,7 +302,7 @@ void WhiteStrobe()  {                                                           
         brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
         FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
         delay(200);                                                                               // long end delay.
-       
+        
 }
 
 //Custom Visibility Strobe in Red (Chris Telford).
@@ -336,7 +358,7 @@ void RedStrobe()  {                                                             
         brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
         FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
         delay(200);                                                                               // long end delay.
-       
+        
 }
 
 void RGBLoop(){
@@ -366,6 +388,7 @@ void RGBLoop(){
       FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
       showStrip();
       delay(3);
+      
     }
   }
 }
@@ -382,6 +405,7 @@ void FadeInOut(byte red, byte green, byte blue){
     brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
     FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
     showStrip();
+    
   }
      
   for(int k = 255; k >= 0; k=k-2) {
@@ -407,50 +431,13 @@ void Strobe(byte red, byte green, byte blue, int StrobeCount, int FlashDelay, in
     FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
     showStrip();
     delay(FlashDelay);
+    
   }
  
  delay(EndPause);
 }
 
-void HalloweenEyes(byte red, byte green, byte blue, 
-                   int EyeWidth, int EyeSpace, 
-                   boolean Fade, int Steps, int FadeDelay,
-                   int EndPause){
-  randomSeed(analogRead(0));
-  
-  int i;
-  int StartPoint  = random( 0, NUM_LEDS - (2*EyeWidth) - EyeSpace );
-  int Start2ndEye = StartPoint + EyeWidth + EyeSpace;
-  
-  for(i = 0; i < EyeWidth; i++) {
-    setPixel(StartPoint + i, red, green, blue);
-    setPixel(Start2ndEye + i, red, green, blue);
-  }
-  
-  showStrip();
-  
-  if(Fade==true) {
-    float r, g, b;
-  
-    for(int j = Steps; j >= 0; j--) {
-      r = j*(red/Steps);
-      g = j*(green/Steps);
-      b = j*(blue/Steps);
-      
-      for(i = 0; i < EyeWidth; i++) {
-        setPixel(StartPoint + i, r, g, b);
-        setPixel(Start2ndEye + i, r, g, b);
-      }
-      
-      showStrip();
-      delay(FadeDelay);
-    }
-  }
-  
-  setAll(0,0,0); // Set all black
-  
-  delay(EndPause);
-}
+
 
 void CylonBounce(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay){
 
@@ -466,6 +453,7 @@ void CylonBounce(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, i
     FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
     showStrip();
     delay(SpeedDelay);
+    
   }
 
   delay(ReturnDelay);
@@ -521,6 +509,7 @@ void CenterToOutside(byte red, byte green, byte blue, int EyeSize, int SpeedDela
     delay(SpeedDelay);
   }
   delay(ReturnDelay);
+  
 }
 
 // used by NewKITT
@@ -600,6 +589,7 @@ void Twinkle(byte red, byte green, byte blue, int Count, int SpeedDelay, boolean
    }
   
   delay(SpeedDelay);
+  
 }
 
 void TwinkleRandom(int Count, int SpeedDelay, boolean OnlyOne) {
@@ -614,6 +604,7 @@ void TwinkleRandom(int Count, int SpeedDelay, boolean OnlyOne) {
      delay(SpeedDelay);
      if(OnlyOne) { 
        setAll(0,0,0); 
+       
      }
    }
   
@@ -647,6 +638,7 @@ void SnowSparkle(byte red, byte green, byte blue, int SparkleDelay, int SpeedDel
   FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
   showStrip();
   delay(SpeedDelay);
+  
 }
 
 void RunningLights(byte red, byte green, byte blue, int WaveDelay) {
@@ -697,6 +689,7 @@ void rainbowCycle(int SpeedDelay) {
     FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
     showStrip();
     delay(SpeedDelay);
+    
   }
 }
 
@@ -724,6 +717,7 @@ byte * Wheel(byte WheelPos) {
 }
 
 void theaterChase(byte red, byte green, byte blue, int SpeedDelay) {
+  
   for (int j=0; j<10; j++) {  //do 10 cycles of chasing
     for (int q=0; q < 3; q++) {
       for (int i=0; i < NUM_LEDS; i=i+3) {
@@ -744,6 +738,7 @@ void theaterChase(byte red, byte green, byte blue, int SpeedDelay) {
 }
 
 void theaterChaseRainbow(int SpeedDelay) {
+  
   byte *c;
   
   for (int j=0; j < 256; j++) {     // cycle all 256 colors in the wheel
@@ -767,6 +762,7 @@ void theaterChaseRainbow(int SpeedDelay) {
 }
 
 void Fire(int Cooling, int Sparking, int SpeedDelay) {
+  
   static byte heat[NUM_LEDS];
   int cooldown;
   
@@ -805,6 +801,7 @@ void Fire(int Cooling, int Sparking, int SpeedDelay) {
 }
 
 void setPixelHeatColor (int Pixel, byte temperature) {
+  
   // Scale 'heat' down from 0-255 to 0-191
   byte t192 = round((temperature/255.0)*191);
  
