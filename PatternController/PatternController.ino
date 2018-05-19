@@ -26,7 +26,7 @@ Button myBtn(BUTTON, 50);   // define the button using button library.
 
 byte selectedEffect=0;      // Keeps track of display mode.
 
-//Code for brightness potentiometer knob
+// Code for brightness potentiometer knob
 #define potPin (A0, INPUT)  // select the input pin for the potentiometer for Overall Brightness.
 int potValue = 0;           // variable to store the value coming from the potentiometer.
 byte brightnessValue = 0;   // variable for brightness value (remapped pot value for 255).
@@ -291,7 +291,7 @@ void loop()
 }
 
 
-// Change modes / effects. When button is pressed selected effect is incrimented and stored to EEPROM for some reason.
+// Change modes / effects. When button is pressed selected effect is incrimented and stored to EEPROM for save on reset.
 void changeEffect() {
     myBtn.read();               // read the button
     if (myBtn.wasPressed())
@@ -321,7 +321,8 @@ void Black(){                                                                   
   showStrip();    
 }
 
-void White(){                                                                                     // Set all LEDs to black. 
+// Set all LEDs to White. Chris Telford.
+void White(){                                                                                     // Set all LEDs to White 
   fill_solid( leds, NUM_LEDS, CRGB::White);
   delay(3);                                                                                       // Seems to stop next pattern crashing for some reason.
   showStrip();    
