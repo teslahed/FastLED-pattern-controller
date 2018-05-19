@@ -7,27 +7,29 @@
  * https://www.tweaking4all.com/downloads/arduino/AllEffects_FastLED.ino.zip
  * Altered slightly with pattern changes, additions, and the dimmer switch.
  * JC_Button library used for button debounce feature and general ease of use.
+ * Serial output gives mode name and number. Useful for debugging. 
  */
 
-//Libraries
+// Libraries
 #include <JC_Button.h>      // https://github.com/JChristensen/JC_Button
-#include "FastLED.h"        // FastLED Library.
+#include <FastLED.h>        // FastLED Library.
 #include <EEPROM.h>         // EEPROM Library.
 
-//Pins
+// LED setup
 #define NUM_LEDS 14         // Change here for longer strings of LEDs
 CRGB leds[NUM_LEDS];        // FastLED pin setup
-
 #define PIN 6               // Pin for LED data line.
+
+// Button setup
 #define BUTTON 3            // Button for mode changes. Has to be either 2 or 3 on most arduinos for the code to work properly.
-Button myBtn(BUTTON, 50);       // define the button using button library.
+Button myBtn(BUTTON, 50);   // define the button using button library.
 
 byte selectedEffect=0;      // Keeps track of display mode.
 
 //Code for brightness potentiometer knob
-int potPin = A0;            // select the input pin for the potentiometer for Overall Brightness.
+#define potPin (A0, INPUT)  // select the input pin for the potentiometer for Overall Brightness.
 int potValue = 0;           // variable to store the value coming from the potentiometer.
-int brightnessValue = 0;    // variable for brightness value (remapped pot value for 255).
+byte brightnessValue = 0;   // variable for brightness value (remapped pot value for 255).
 
 void setup()
 {
@@ -56,18 +58,20 @@ void loop()
   switch(selectedEffect) {
     
     case 0  : {
-                // RGBLoop - no parameters
+                // White light
                 
                 if (myBtn.isPressed())
                     {
-                      Serial.print(" 0: RGBLoop ");   //Print out current pattern mode name and number. 
+                      Serial.print(" 0: White ");   //Print out current pattern mode name and number. 
                     }
-                RGBLoop();
+                White();    
+                //RGBLoop();
                 break;
                                  
               }
               
     case 1  : {
+                // Black i.e. off
                 if (myBtn.isPressed())
                     {
                       Serial.print(" 1: Black ");     //Print out current pattern mode name and number. 
@@ -313,6 +317,12 @@ void Dimmer(){
 // Set all LEDs to black. Chris Telford.
 void Black(){                                                                                     // Set all LEDs to black. 
   fill_solid( leds, NUM_LEDS, CRGB::Black);
+  delay(3);                                                                                       // Seems to stop next pattern crashing for some reason.
+  showStrip();    
+}
+
+void White(){                                                                                     // Set all LEDs to black. 
+  fill_solid( leds, NUM_LEDS, CRGB::White);
   delay(3);                                                                                       // Seems to stop next pattern crashing for some reason.
   showStrip();    
 }
