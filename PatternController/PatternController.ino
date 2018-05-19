@@ -39,10 +39,7 @@ void setup()
 
 void loop() 
 { 
-  
-  potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-  brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-  FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
+  Dimmer();
   
   EEPROM.get(0,selectedEffect);                                                             // Read mode from EEPROM (for some reason).
   
@@ -236,13 +233,20 @@ void changeEffect() {
     asm volatile ("  jmp 0");    
    }
     }
+
+//Function to control LED brightness.
+void Dimmer(){
+    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
+    brightnessValue = map(potValue, 0, 1023, 10, 255);                                        // Map potentiometer to brightness and set limits.
+    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
+}
     
       
 // ******************************************
 // ** LED Effect Functions from here down. **
 // ******************************************
 
-// Set all LEDs to black. 
+// Set all LEDs to black. Chris Telford.
 void Black(){                                                                                     // Set all LEDs to black. 
   fill_solid( leds, NUM_LEDS, CRGB::Black);
   delay(3);                                                                                       // Seems to stop next pattern crashing for some reason.
@@ -252,55 +256,37 @@ void Black(){                                                                   
 // Custom Visibility Strobe in White (Chris Telford).
 void WhiteStrobe()  {                                                                             // Custom Visibility Strobe in White (Chris Telford).
         fill_solid( leds, NUM_LEDS, CRGB::White);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue);  
+        Dimmer();                                                                                 // Dimmer function for brightness control in loop.
         showStrip();
         delay(150);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue);  
+        Dimmer();
         showStrip();
         delay(50);
         fill_solid( leds, NUM_LEDS, CRGB::White);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue);  
+        Dimmer();
         showStrip();
         delay(150);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue); 
+        Dimmer();
         showStrip();
         delay(50);
         fill_solid( leds, NUM_LEDS, CRGB::White);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue); 
+        Dimmer();
         showStrip();
         delay(150);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue); 
+        Dimmer();
         showStrip();
         delay(50);
         fill_solid( leds, NUM_LEDS, CRGB::White);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue); 
+        Dimmer();
         showStrip();
         delay(200);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue); 
+        Dimmer();
         showStrip();
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
+        Dimmer();
         delay(200);                                                                               // long end delay.
         
 }
@@ -308,55 +294,37 @@ void WhiteStrobe()  {                                                           
 //Custom Visibility Strobe in Red (Chris Telford).
 void RedStrobe()  {                                                                               // Custom Visibility Strobe in White (Chris Telford).
         fill_solid( leds, NUM_LEDS, CRGB::Red);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue);  
+        Dimmer();                                                                                 // Dimmer function for brightness control in loop.
         showStrip();
         delay(150);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue);  
+        Dimmer();                                                                                 // Dimmer function for brightness control in loop.
         showStrip();
         delay(50);
         fill_solid( leds, NUM_LEDS, CRGB::Red);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue);  
+        Dimmer();                                                                                 // Dimmer function for brightness control in loop.
         showStrip();
         delay(150);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue); 
+        Dimmer();                                                                                 // Dimmer function for brightness control in loop.
         showStrip();
         delay(50);
         fill_solid( leds, NUM_LEDS, CRGB::Red);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue); 
+        Dimmer();                                                                                 // Dimmer function for brightness control in loop.
         showStrip();
         delay(150);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue); 
+        Dimmer();                                                                                 // Dimmer function for brightness control in loop.
         showStrip();
         delay(50);
         fill_solid( leds, NUM_LEDS, CRGB::Red);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue); 
+        Dimmer();                                                                                 // Dimmer function for brightness control in loop.
         showStrip();
         delay(200);
         fill_solid( leds, NUM_LEDS, CRGB::Black);
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue); 
+        Dimmer();                                                                                 // Dimmer function for brightness control in loop.
         showStrip();
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue);                                                   // Set master brightness control for fastled.
+        Dimmer();                                                                                 // Dimmer function for brightness control in loop.
         delay(200);                                                                               // long end delay.
         
 }
@@ -370,9 +338,7 @@ void RGBLoop(){
         case 1: setAll(0,k,0); break;
         case 2: setAll(0,0,k); break;
       }
-      potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-      brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-      FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+      Dimmer();                                                                                 // Dimmer function for brightness control in loop.
       showStrip();
       delay(3);
     }
@@ -383,9 +349,7 @@ void RGBLoop(){
         case 1: setAll(0,k,0); break;
         case 2: setAll(0,0,k); break;
       }
-      potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-      brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-      FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+      Dimmer();                                                                                 // Dimmer function for brightness control in loop.
       showStrip();
       delay(3);
       
@@ -401,9 +365,7 @@ void FadeInOut(byte red, byte green, byte blue){
     g = (k/256.0)*green;
     b = (k/256.0)*blue;
     setAll(r,g,b);
-    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+    Dimmer();                                                                                 // Dimmer function for brightness control in loop.
     showStrip();
     
   }
@@ -413,9 +375,7 @@ void FadeInOut(byte red, byte green, byte blue){
     g = (k/256.0)*green;
     b = (k/256.0)*blue;
     setAll(r,g,b);
-    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+    Dimmer();                                                                                 // Dimmer function for brightness control in loop.
     showStrip();
   }
 }
@@ -426,9 +386,7 @@ void Strobe(byte red, byte green, byte blue, int StrobeCount, int FlashDelay, in
     showStrip();
     delay(FlashDelay);
     setAll(0,0,0);
-    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+    Dimmer();                                                                                 // Dimmer function for brightness control in loop.
     showStrip();
     delay(FlashDelay);
     
@@ -448,9 +406,7 @@ void CylonBounce(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, i
       setPixel(i+j, red, green, blue); 
     }
     setPixel(i+EyeSize+1, red/10, green/10, blue/10);
-    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+    Dimmer();                                                                                 // Dimmer function for brightness control in loop.
     showStrip();
     delay(SpeedDelay);
     
@@ -465,9 +421,7 @@ void CylonBounce(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, i
       setPixel(i+j, red, green, blue); 
     }
     setPixel(i+EyeSize+1, red/10, green/10, blue/10);
-    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+    Dimmer();                                                                                 // Dimmer function for brightness control in loop.
     showStrip();
     delay(SpeedDelay);
   }
@@ -502,9 +456,7 @@ void CenterToOutside(byte red, byte green, byte blue, int EyeSize, int SpeedDela
       setPixel(NUM_LEDS-i-j, red, green, blue); 
     }
     setPixel(NUM_LEDS-i-EyeSize-1, red/10, green/10, blue/10);
-    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+    Dimmer();                                                                                 // Dimmer function for brightness control in loop.
     showStrip();
     delay(SpeedDelay);
   }
@@ -528,9 +480,7 @@ void OutsideToCenter(byte red, byte green, byte blue, int EyeSize, int SpeedDela
       setPixel(NUM_LEDS-i-j, red, green, blue); 
     }
     setPixel(NUM_LEDS-i-EyeSize-1, red/10, green/10, blue/10);
-    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+    Dimmer();                                                                                 // Dimmer function for brightness control in loop.
     showStrip();
     delay(SpeedDelay);
   }
@@ -546,9 +496,7 @@ void LeftToRight(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, i
       setPixel(i+j, red, green, blue); 
     }
     setPixel(i+EyeSize+1, red/10, green/10, blue/10);
-    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+    Dimmer();                                                                                 // Dimmer function for brightness control in loop.
     showStrip();
     delay(SpeedDelay);
   }
@@ -564,9 +512,7 @@ void RightToLeft(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, i
       setPixel(i+j, red, green, blue); 
     }
     setPixel(i+EyeSize+1, red/10, green/10, blue/10);
-    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+    Dimmer();                                                                                 // Dimmer function for brightness control in loop.
     showStrip();
     delay(SpeedDelay);
   }
@@ -578,9 +524,7 @@ void Twinkle(byte red, byte green, byte blue, int Count, int SpeedDelay, boolean
   
   for (int i=0; i<Count; i++) {
      setPixel(random(NUM_LEDS),red,green,blue);
-     potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-     brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-     FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+     Dimmer();                                                                                 // Dimmer function for brightness control in loop.
      showStrip();
      delay(SpeedDelay);
      if(OnlyOne) { 
@@ -597,9 +541,7 @@ void TwinkleRandom(int Count, int SpeedDelay, boolean OnlyOne) {
   
   for (int i=0; i<Count; i++) {
      setPixel(random(NUM_LEDS),random(0,255),random(0,255),random(0,255));
-     potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-     brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-     FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+     Dimmer();                                                                                 // Dimmer function for brightness control in loop.
      showStrip();
      delay(SpeedDelay);
      if(OnlyOne) { 
@@ -614,9 +556,7 @@ void TwinkleRandom(int Count, int SpeedDelay, boolean OnlyOne) {
 void Sparkle(byte red, byte green, byte blue, int SpeedDelay) {
   int Pixel = random(NUM_LEDS);
   setPixel(Pixel,red,green,blue);
-  potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-  brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-  FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
   showStrip();
   delay(SpeedDelay);
   setPixel(Pixel,0,0,0);
@@ -627,15 +567,11 @@ void SnowSparkle(byte red, byte green, byte blue, int SparkleDelay, int SpeedDel
   
   int Pixel = random(NUM_LEDS);
   setPixel(Pixel,0xff,0xff,0xff);
-  potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-  brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-  FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
   showStrip();
   delay(SparkleDelay);
   setPixel(Pixel,red,green,blue);
-  potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-  brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-  FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
   showStrip();
   delay(SpeedDelay);
   
@@ -656,9 +592,7 @@ void RunningLights(byte red, byte green, byte blue, int WaveDelay) {
                    ((sin(i+Position) * 127 + 128)/255)*green,
                    ((sin(i+Position) * 127 + 128)/255)*blue);
       }
-      potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-      brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-      FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+      Dimmer();                                                                                 // Dimmer function for brightness control in loop.
       showStrip();
       delay(WaveDelay);
   }
@@ -667,9 +601,7 @@ void RunningLights(byte red, byte green, byte blue, int WaveDelay) {
 void colorWipe(byte red, byte green, byte blue, int SpeedDelay) {
   for(uint16_t i=0; i<NUM_LEDS; i++) {
       setPixel(i, red, green, blue);
-      potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-      brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-      FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+      Dimmer();                                                                                 // Dimmer function for brightness control in loop.
       showStrip();
       delay(SpeedDelay);
   }
@@ -684,9 +616,7 @@ void rainbowCycle(int SpeedDelay) {
       c=Wheel(((i * 256 / NUM_LEDS) + j) & 255);
       setPixel(i, *c, *(c+1), *(c+2));
     }
-    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+    Dimmer();                                                                                 // Dimmer function for brightness control in loop.
     showStrip();
     delay(SpeedDelay);
     
@@ -723,9 +653,7 @@ void theaterChase(byte red, byte green, byte blue, int SpeedDelay) {
       for (int i=0; i < NUM_LEDS; i=i+3) {
         setPixel(i+q, red, green, blue);    //turn every third pixel on
       }
-      potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-      brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-      FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+      Dimmer();                                                                                 // Dimmer function for brightness control in loop.
       showStrip();
      
       delay(SpeedDelay);
@@ -747,9 +675,7 @@ void theaterChaseRainbow(int SpeedDelay) {
           c = Wheel( (i+j) % 255);
           setPixel(i+q, *c, *(c+1), *(c+2));    //turn every third pixel on
         }
-        potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-        brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-        FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+        Dimmer();                                                                                 // Dimmer function for brightness control in loop.
         showStrip();
        
         delay(SpeedDelay);
@@ -793,9 +719,7 @@ void Fire(int Cooling, int Sparking, int SpeedDelay) {
   for( int j = 0; j < NUM_LEDS; j++) {
     setPixelHeatColor(j, heat[j] );
   }
-  potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-  brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-  FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
   showStrip();
   delay(SpeedDelay);
 }
@@ -871,9 +795,7 @@ void BouncingColoredBalls(int BallCount, byte colors[][3], boolean continuous) {
         ballsStillBouncing = true;
       }
     }
-    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+    Dimmer();                                                                                 // Dimmer function for brightness control in loop.
     showStrip();
     setAll(0,0,0);
   }
@@ -898,9 +820,7 @@ void meteorRain(byte red, byte green, byte blue, byte meteorSize, byte meteorTra
         setPixel(i-j, red, green, blue);
       } 
     }
-    potValue = analogRead(potPin);                                                            // Read the potentiometer values.
-    brightnessValue = map(potValue, 0, 1023, 15, 255);                                        // Map potentiometer to brightness and set limits.
-    FastLED.setBrightness(brightnessValue);                                                   // Set master brightness.
+    Dimmer();                                                                                 // Dimmer function for brightness control in loop.
     showStrip();
     delay(SpeedDelay);
   }
