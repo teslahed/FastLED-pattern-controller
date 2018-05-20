@@ -45,7 +45,7 @@ void loop()
 
   EEPROM.get(0, selectedEffect);                                                            // Read mode from EEPROM (for some reason).
 
-  if (selectedEffect > 20) {                                                                // Change number here when adding effects. Loops back to 0.
+  if (selectedEffect > 25) {                                                                // Change number here when adding effects. Loops back to 0.
     selectedEffect = 0;
     EEPROM.put(0, 0);                                                                       // Store the LED pattern number in EEPROM.
   }
@@ -58,11 +58,23 @@ void loop()
   switch (selectedEffect) {
 
     case 0  : {
+        // Black i.e. off
+        if (myBtn.isPressed())
+        {
+          Serial.print(" 0: Black ");     //Print out current pattern mode name and number.
+          delay(500);
+        }
+        Black();
+        break;
+
+      }
+
+    case 1  : {
         // White light
 
         if (myBtn.isPressed())
         {
-          Serial.print(" 0: White ");   //Print out current pattern mode name and number.
+          Serial.print(" 1: White Light ");   //Print out current pattern mode name and number.
           delay(500);
         }
         White();
@@ -71,23 +83,21 @@ void loop()
 
       }
 
-    case 1  : {
-        // Black i.e. off
+    case 2  : {
         if (myBtn.isPressed())
         {
-          Serial.print(" 1: Black ");     //Print out current pattern mode name and number.
+          Serial.print(" 2: Purple Light ");   //Print out current pattern mode name and number.
           delay(500);
         }
-        Black();
+        Purple();
         break;
-
       }
 
-    case 2  : {
+    case 3  : {
         // FadeInOut - Color (red, green. blue)
         if (myBtn.isPressed())
         {
-          Serial.print(" 2: FadeInOut "); //Print out current pattern mode name and number.
+          Serial.print(" 3: RGB Colour Breath "); //Print out current pattern mode name and number.
           delay(500);
         }
         FadeInOut(0xff, 0x00, 0x00); // red
@@ -96,100 +106,122 @@ void loop()
         break;
 
       }
-
-    case 3  : {
-        // Strobe - Color (red, green, blue), number of flashes, flash speed, end pause
-        //Strobe(0xff, 0xff, 0xff, 3, 250, 400);
+    case 4  : {
+        // FadeInOut Purple
         if (myBtn.isPressed())
         {
-          Serial.print(" 3: WhiteStrobe "); //Print out current pattern mode name and number.
+          Serial.print(" 4: Purple Breath "); //Print out current pattern mode name and number.
+          delay(500);
+        }
+        FadeInOut(0xff, 0x00, 0xff); // Purple
+        break;
+
+      }
+
+    case 5  : {
+        // White Strobe.
+        if (myBtn.isPressed())
+        {
+          Serial.print(" 5: WhiteStrobe "); //Print out current pattern mode name and number.
           delay(500);
         }
         WhiteStrobe();
         break;
       }
 
-    case 4  : {
+    case 6  : {
+        // Red Strobe.
         if (myBtn.isPressed())
         {
-          Serial.print(" 4: RedStrobe ");   //Print out current pattern mode name and number.
+          Serial.print(" 6: Red Strobe ");   //Print out current pattern mode name and number.
           delay(500);
         }
         RedStrobe();
         break;
       }
 
-    case 5  : {
+    case 7  : {
+        // Purple Strobe.
+        if (myBtn.isPressed())
+        {
+          Serial.print(" 7: Purple Strobe ");   //Print out current pattern mode name and number.
+          delay(500);
+        }
+        PurpleStrobe();
+        break;
+      }
+    
+    case 8  : {
         // CylonBounce - Color (red, green, blue), eye size, speed delay, end pause
         if (myBtn.isPressed())
         {
-          Serial.print(" 5: CylonBounce "); //Print out current pattern mode name and number.
+          Serial.print(" 8: CylonBounce "); //Print out current pattern mode name and number.
           delay(500);
         }
         CylonBounce(0xff, 0x00, 0x00, 4, 20, 50);
         break;
       }
 
-    case 6  : {
+    case 9  : {
         // NewKITT - Color (red, green, blue), eye size, speed delay, end pause
         if (myBtn.isPressed())
         {
-          Serial.print(" 6: NewKITT ");     //Print out current pattern mode name and number.
+          Serial.print(" 9: NewKITT ");     //Print out current pattern mode name and number.
           delay(500);
         }
         NewKITT(0xff, 0x00, 0x00, 8, 10, 50);
         break;
       }
 
-    case 7  : {
+    case 10  : {
         // Twinkle - Color (red, green, blue), count, speed delay, only one twinkle (true/false)
         if (myBtn.isPressed())
         {
-          Serial.print(" 7: Twinkle ");     //Print out current pattern mode name and number.
+          Serial.print(" 10: Twinkle ");     //Print out current pattern mode name and number.
           delay(500);
         }
-        Twinkle(0xff, 0x00, 0x00, 10, 100, false);
+        Twinkle(0xff, 0x00, 0xff, 10, 100, false);
         break;
       }
 
-    case 8  : {
+    case 11  : {
         // TwinkleRandom - twinkle count, speed delay, only one (true/false)
         if (myBtn.isPressed())
         {
-          Serial.print(" 8: TwinkleRandom ");      //Print out current pattern mode name and number.
+          Serial.print(" 11: TwinkleRandom ");      //Print out current pattern mode name and number.
           delay(500);
         }
         TwinkleRandom(25, 100, false);
         break;
       }
 
-    case 9  : {
+    case 12  : {
         // Sparkle - Color (red, green, blue), speed delay
         if (myBtn.isPressed())
         {
-          Serial.print(" 9: Sparkle ");           //Print out current pattern mode name and number.
+          Serial.print(" 12: Sparkle ");           //Print out current pattern mode name and number.
           delay(500);
         }
         Sparkle(0xff, 0x00, 0xff, 0);
         break;
       }
 
-    case 10  : {
+    case 13  : {
         // SnowSparkle - Color (red, green, blue), sparkle delay, speed delay
         if (myBtn.isPressed())
         {
-          Serial.print(" 10: SnowSparkle ");      //Print out current pattern mode name and number.
+          Serial.print(" 13: SnowSparkle ");      //Print out current pattern mode name and number.
           delay(500);
         }
         SnowSparkle(0x10, 0x10, 0x10, 20, random(100, 1000));
         break;
       }
 
-    case 11 : {
+    case 14 : {
         // Running Lights - Color (red, green, blue), wave dealy
         if (myBtn.isPressed())
         {
-          Serial.print(" 11: Running Lights ");   //Print out current pattern mode name and number.
+          Serial.print(" 14: Running Lights ");   //Print out current pattern mode name and number.
           delay(500);
         }
         RunningLights(0xff, 0x00, 0x00, 60);    // red
@@ -198,11 +230,21 @@ void loop()
         break;
       }
 
-    case 12 : {
+    case 15 : {
+        // Running Lights - Color (red, green, blue), wave dealy
+        if (myBtn.isPressed())
+        {
+          Serial.print(" 15: Purple Running Lights ");   //Print out current pattern mode name and number.
+          delay(500);
+        }
+        RunningLights(0xff, 0x00, 0xff, 60);    // Purple
+        break;
+      }
+    case 16 : {
         // colorWipe - Color (red, green, blue), speed delay
         if (myBtn.isPressed())
         {
-          Serial.print(" 12: colorWipe ");        //Print out current pattern mode name and number.
+          Serial.print(" 16: colorWipe ");        //Print out current pattern mode name and number.
           delay(500);
         }
         colorWipe(0x00, 0xff, 0x00, 50);
@@ -210,22 +252,22 @@ void loop()
         break;
       }
 
-    case 13 : {
+    case 17 : {
         // rainbowCycle - speed delay
         if (myBtn.isPressed())
         {
-          Serial.print(" 13: RainbowCycle Fast "); //Print out current pattern mode name and number.
+          Serial.print(" 17: RainbowCycle Fast "); //Print out current pattern mode name and number.
           delay(500);
         }
         rainbowCycle(2);
         break;
       }
 
-    case 14 : {
+    case 18 : {
         // rainbowCycle - speed delay
         if (myBtn.isPressed())
         {
-          Serial.print(" 14: rainbowCycle Slow"); //Print out current pattern mode name and number.
+          Serial.print(" 18: rainbowCycle Slow"); //Print out current pattern mode name and number.
           delay(500);
         }
         rainbowCycle(15);
@@ -233,11 +275,11 @@ void loop()
       }
 
 
-    case 15 : {
+    case 19 : {
         // theatherChase - Color (red, green, blue), speed delay
         if (myBtn.isPressed())
         {
-          Serial.print(" 15: theatherChase ");    //Print out current pattern mode name and number.
+          Serial.print(" 19: theatherChase ");    //Print out current pattern mode name and number.
           delay(500);
         }
         theaterChase(0xff, 0, 0, 50);
@@ -246,22 +288,22 @@ void loop()
         break;
       }
 
-    case 16 : {
+    case 20 : {
         // theaterChaseRainbow - Speed delay
         if (myBtn.isPressed())
         {
-          Serial.print(" 16: theaterChaseRainbow ");  //Print out current pattern mode name and number.
+          Serial.print(" 20: theaterChaseRainbow ");  //Print out current pattern mode name and number.
           delay(500);
         }
         theaterChaseRainbow(50);
         break;
       }
 
-    case 17 : {
+    case 21: {
         // Fire - Cooling rate, Sparking rate, speed delay
         if (myBtn.isPressed())
         {
-          Serial.print(" 17: Fire ");                 //Print out current pattern mode name and number.
+          Serial.print(" 21: Fire ");                 //Print out current pattern mode name and number.
           delay(500);
         }
         Fire(55, 120, 15);
@@ -269,14 +311,14 @@ void loop()
       }
 
 
-    case 18 : {
+    case 22 : {
         // mimic BouncingBalls
         // simple bouncingBalls not included, since BouncingColoredBalls can perform this as well as shown below
         // BouncingColoredBalls - Number of balls, color (red, green, blue) array, continuous
         // CAUTION: If set to continuous then this effect will never stop!!!
         if (myBtn.isPressed())
         {
-          Serial.print(" 18: BouncingBalls ");        //Print out current pattern mode name and number.
+          Serial.print(" 22: BouncingBalls ");        //Print out current pattern mode name and number.
           delay(500);
         }
         byte onecolor[1][3] = { {0xff, 0x00, 0x00} };
@@ -284,29 +326,41 @@ void loop()
         break;
       }
 
-    case 19 : {
+    case 23 : {
         // multiple colored balls
         if (myBtn.isPressed())
         {
-          Serial.print(" 19: colored balls ");        //Print out current pattern mode name and number.
+          Serial.print(" 23: colored balls ");        //Print out current pattern mode name and number.
           delay(500);
         }
-        byte colors[3][3] = { {0xff, 0x00, 0x00},
-          {0xff, 0xff, 0xff},
+        byte colors[3][3] = { 
+          {0xff, 0x00, 0x00},
+          {0x00, 0xff, 0x00},
           {0x00, 0x00, 0xff}
         };
         BouncingColoredBalls(3, colors, false);
         break;
       }
 
-    case 20 : {
+    case 24 : {
         // meteorRain - Color (red, green, blue), meteor size, trail decay, random trail decay (true/false), speed delay
         if (myBtn.isPressed())
         {
-          Serial.print(" 20: meteorRain ");            //Print out current pattern mode name and number.
+          Serial.print(" 24: White meteorRain ");            //Print out current pattern mode name and number.
           delay(500);
         }
         meteorRain(0xff, 0xff, 0xff, 10, 64, true, 30);
+        break;
+      }
+
+    case 25 : {
+        // meteorRain - Color (red, green, blue), meteor size, trail decay, random trail decay (true/false), speed delay
+        if (myBtn.isPressed())
+        {
+          Serial.print(" 25: Purple meteorRain ");            //Print out current pattern mode name and number.
+          delay(500);
+        }
+        meteorRain(0xff, 0x00, 0xff, 10, 64, true, 30);
         break;
       }
   }
@@ -346,6 +400,13 @@ void Black() {                                                                  
 // Set all LEDs to White. Chris Telford.
 void White() {                                                                                    // Set all LEDs to White
   fill_solid( leds, NUM_LEDS, CRGB::White);
+  delay(3);                                                                                       // Seems to stop next pattern crashing for some reason.
+  showStrip();
+}
+
+// Set all LEDs to White. Chris Telford.
+void Purple() {                                                                                    // Set all LEDs to White
+  fill_solid( leds, NUM_LEDS, CRGB::Purple);
   delay(3);                                                                                       // Seems to stop next pattern crashing for some reason.
   showStrip();
 }
@@ -415,6 +476,44 @@ void RedStrobe()  {                                                             
   showStrip();
   delay(50);
   fill_solid( leds, NUM_LEDS, CRGB::Red);
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
+  showStrip();
+  delay(200);
+  fill_solid( leds, NUM_LEDS, CRGB::Black);
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
+  showStrip();
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
+  delay(200);                                                                               // long end delay.
+
+}
+
+//Custom Visibility Strobe in Purple (Chris Telford).
+void PurpleStrobe()  {                                                                               // Custom Visibility Strobe in White (Chris Telford).
+  fill_solid( leds, NUM_LEDS, CRGB::Purple);
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
+  showStrip();
+  delay(150);
+  fill_solid( leds, NUM_LEDS, CRGB::Black);
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
+  showStrip();
+  delay(50);
+  fill_solid( leds, NUM_LEDS, CRGB::Purple);
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
+  showStrip();
+  delay(150);
+  fill_solid( leds, NUM_LEDS, CRGB::Black);
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
+  showStrip();
+  delay(50);
+  fill_solid( leds, NUM_LEDS, CRGB::Purple);
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
+  showStrip();
+  delay(150);
+  fill_solid( leds, NUM_LEDS, CRGB::Black);
+  Dimmer();                                                                                 // Dimmer function for brightness control in loop.
+  showStrip();
+  delay(50);
+  fill_solid( leds, NUM_LEDS, CRGB::Purple);
   Dimmer();                                                                                 // Dimmer function for brightness control in loop.
   showStrip();
   delay(200);
