@@ -9,3 +9,9 @@ This code was taken from
   https://www.tweaking4all.com/downloads/arduino/AllEffects_FastLED.ino.zip
   
 and altered slightly by Chris Telford.
+
+Please see 'pics' folder on github for pictures of the hardware and a video of it running;
+
+https://github.com/teslahed/FastLED-pattern-controller/tree/master/pics
+
+https://youtu.be/xFfoa0rXh4I
