@@ -16,7 +16,7 @@
 #include <EEPROM.h>         // EEPROM Library.
 
 // LED setup
-#define NUM_LEDS 14         // Change here for longer strings of LEDs
+#define NUM_LEDS 60         // Change here for longer strings of LEDs
 CRGB leds[NUM_LEDS];        // FastLED pin setup
 #define PIN 6               // Pin for LED data line.
 
@@ -180,7 +180,7 @@ void loop()
           Serial.print(" 10: Twinkle ");     //Print out current pattern mode name and number.
           delay(500);
         }
-        Twinkle(0xff, 0x00, 0xff, 10, 100, false);
+        Twinkle(0xff, 0x00, 0xff, 60, 100, false);
         break;
       }
 
@@ -191,7 +191,7 @@ void loop()
           Serial.print(" 11: TwinkleRandom ");      //Print out current pattern mode name and number.
           delay(500);
         }
-        TwinkleRandom(25, 100, false);
+        TwinkleRandom(60, 100, false);
         break;
       }
 
@@ -338,7 +338,7 @@ void loop()
           {0x00, 0xff, 0x00},
           {0x00, 0x00, 0xff}
         };
-        BouncingColoredBalls(3, colors, false);
+        BouncingColoredBalls(5, colors, false);
         break;
       }
 
