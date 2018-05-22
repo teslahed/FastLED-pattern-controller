@@ -15,3 +15,6 @@ Please see 'pics' folder on github for pictures of the hardware and a video of i
 https://github.com/teslahed/FastLED-pattern-controller/tree/master/pics
 
 https://youtu.be/xFfoa0rXh4I
+
+
+The '3d printed box' folder includes the files I used for the box I put my electroics in. This may not be of much use to anyone else depending on the size of buttons, switches and components you use.
