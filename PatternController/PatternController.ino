@@ -16,7 +16,7 @@
 #include <EEPROM.h>         // EEPROM Library.
 
 // LED setup
-#define NUM_LEDS 60         // Change here for longer strings of LEDs
+#define NUM_LEDS 15         // Change here for longer strings of LEDs
 CRGB leds[NUM_LEDS];        // FastLED pin setup
 #define PIN 6               // Pin for LED data line.
 
